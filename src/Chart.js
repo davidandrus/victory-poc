@@ -24,8 +24,6 @@ const data = range(0, 6).map(i => {
     : getData(5000, 10000);
 });
 
-console.log(data);
-
 export default function Chart() {
   return (
     <VictoryChart
@@ -35,22 +33,19 @@ export default function Chart() {
           voronoiDimension="x"
           labels={(d) => `y: ${d.y}`}
           labelComponent={<CustomTooltip />}
+          voronoiBlacklist={['line']}
         />
       }>
-      <VictoryGroup>
-        {range(0, 3).map(i => (
-          <VictoryScatter
-            data={data[i]}
-            size={(datum, active) => active ? 2 : 0}
-          />
-        ))}
-      </VictoryGroup>
+      <VictoryAxis />
+      <VictoryAxis dependentAxis />
+      <VictoryAxis dependentAxis orientation="right" />
 
       <VictoryGroup>
         {range(0, 3).map(i => (
           <VictoryLine
             key={i}
             data={data[i]}
+            name='line'
             style={{
               data: {
                 strokeWidth: 1,
@@ -61,17 +56,10 @@ export default function Chart() {
       </VictoryGroup>
       <VictoryGroup>
         {range(3, 6).map(i => (
-          <VictoryScatter
-            data={data[i]}
-            size={(datum, active) => active ? 2 : 0}
-          />
-        ))}
-      </VictoryGroup>
-      <VictoryGroup>
-        {range(3, 6).map(i => (
           <VictoryLine
             key={i}
             data={data[i]}
+            name='line'
             style={{
               data: {
                 strokeDasharray: '2, 2',
@@ -81,9 +69,22 @@ export default function Chart() {
           />
         ))}
       </VictoryGroup>
-      <VictoryAxis />
-      <VictoryAxis dependentAxis />
-      <VictoryAxis dependentAxis orientation="right" />
+      <VictoryGroup>
+        {range(0, 3).map(i => (
+          <VictoryScatter
+            data={data[i]}
+            size={(datum, active) => active ? 2 : 0}
+          />
+        ))}
+      </VictoryGroup>
+      <VictoryGroup>
+        {range(3, 6).map(i => (
+          <VictoryScatter
+            data={data[i]}
+            size={(datum, active) => active ? 2 : 0}
+          />
+        ))}
+      </VictoryGroup>
     </VictoryChart>
   );
 }
