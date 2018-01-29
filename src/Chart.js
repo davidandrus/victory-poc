@@ -4,12 +4,14 @@ import {
   VictoryChart,
   VictoryGroup,
   VictoryLine,
+  VictoryScatter,
   VictoryTheme,
-  VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory";
 import range from 'lodash/range';
 import random from 'lodash/random'
+
+import CustomTooltip from './CustomTooltip';
 
 const getData = (min, max) => range(1, 8).map(x => ({
   x,
@@ -32,13 +34,21 @@ export default function Chart() {
         <VictoryVoronoiContainer
           voronoiDimension="x"
           labels={(d) => `y: ${d.y}`}
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<CustomTooltip />}
         />
       }>
       <VictoryGroup>
         {range(0, 3).map(i => (
+          <VictoryScatter
+            data={data[i]}
+            size={(datum, active) => active ? 2 : 0}
+          />
+        ))}
+      </VictoryGroup>
+
+      <VictoryGroup>
+        {range(0, 3).map(i => (
           <VictoryLine
-            labelComponent={<VictoryTooltip />}
             key={i}
             data={data[i]}
             style={{
@@ -51,8 +61,15 @@ export default function Chart() {
       </VictoryGroup>
       <VictoryGroup>
         {range(3, 6).map(i => (
+          <VictoryScatter
+            data={data[i]}
+            size={(datum, active) => active ? 2 : 0}
+          />
+        ))}
+      </VictoryGroup>
+      <VictoryGroup>
+        {range(3, 6).map(i => (
           <VictoryLine
-            labelComponent={<VictoryTooltip />}
             key={i}
             data={data[i]}
             style={{
