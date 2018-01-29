@@ -5,6 +5,8 @@ import {
   VictoryGroup,
   VictoryLine,
   VictoryTheme,
+  VictoryTooltip,
+  VictoryVoronoiContainer,
 } from "victory";
 import range from 'lodash/range';
 import random from 'lodash/random'
@@ -24,10 +26,19 @@ console.log(data);
 
 export default function Chart() {
   return (
-    <VictoryChart theme={VictoryTheme.material}>
+    <VictoryChart
+      theme={VictoryTheme.material}
+      containerComponent={
+        <VictoryVoronoiContainer
+          voronoiDimension="x"
+          labels={(d) => `y: ${d.y}`}
+          labelComponent={<VictoryTooltip />}
+        />
+      }>
       <VictoryGroup>
         {range(0, 3).map(i => (
           <VictoryLine
+            labelComponent={<VictoryTooltip />}
             key={i}
             data={data[i]}
             style={{
@@ -41,6 +52,7 @@ export default function Chart() {
       <VictoryGroup>
         {range(3, 6).map(i => (
           <VictoryLine
+            labelComponent={<VictoryTooltip />}
             key={i}
             data={data[i]}
             style={{
