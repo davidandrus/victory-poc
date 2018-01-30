@@ -28,10 +28,10 @@ export default function (props) {
         <div style={{
           backgroundColor: 'white',
           boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
-          height: 300,
+          height: 440,
           width: 200,
           marginLeft: -210,
-          opacity: .8,
+          opacity: .9,
         }}
         >
           <div style={{
