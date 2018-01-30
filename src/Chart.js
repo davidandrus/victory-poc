@@ -8,80 +8,79 @@ import {
   VictoryTheme,
   VictoryVoronoiContainer,
 } from "victory";
-import range from 'lodash/range';
-import random from 'lodash/random'
 
 import CustomTooltip from './CustomTooltip';
 
-const getData = (min, max) => range(1, 8).map(x => ({
-  x,
-  y: random(min, max),
-}))
+export default function Chart(props) {
+  const {
+    data,
+    data2,
+  } = props;
 
-const data = range(0, 6).map(i => {
-  return (i < 3)
-    ? getData(1, 5000)
-    : getData(5000, 10000);
-});
-
-export default function Chart() {
   return (
     <VictoryChart
-      theme={VictoryTheme.material}
+      height={500}
+      padding={{ top: 10, left: 50, right: 50, bottom: 50 }}
+      width={1000}
+      theme={VictoryTheme.grayscale}
       containerComponent={
         <VictoryVoronoiContainer
           voronoiDimension="x"
+          labelComponent={<CustomTooltip data={data} />}
           labels={(d) => `y: ${d.y}`}
-          labelComponent={<CustomTooltip />}
           voronoiBlacklist={['line']}
+          padding={0}
+          responsive={false}
         />
       }>
       <VictoryAxis />
       <VictoryAxis dependentAxis />
       <VictoryAxis dependentAxis orientation="right" />
 
-      <VictoryGroup>
-        {range(0, 3).map(i => (
+      <VictoryGroup colorScale={VictoryTheme.material.group.colorScale}>
+        {data.map((item, i) => (
           <VictoryLine
+            data={item}
             key={i}
-            data={data[i]}
             name='line'
             style={{
               data: {
-                strokeWidth: 1,
+                strokeWidth: 2,
               }
             }}
           />
         ))}
       </VictoryGroup>
-      <VictoryGroup>
-        {range(3, 6).map(i => (
+      <VictoryGroup colorScale={VictoryTheme.material.group.colorScale}>
+        {data2.map((item, i) => (
           <VictoryLine
             key={i}
-            data={data[i]}
+            data={item}
             name='line'
             style={{
               data: {
-                strokeDasharray: '2, 2',
-                strokeWidth: 1,
+                strokeDasharray: '4, 4',
+                strokeWidth: 2,
               }
             }}
           />
         ))}
       </VictoryGroup>
-      <VictoryGroup>
-        {range(0, 3).map(i => (
+      <VictoryGroup colorScale={VictoryTheme.material.group.colorScale}>
+        {data.map((item, i) => (
           <VictoryScatter
-            data={data[i]}
-            size={(datum, active) => active ? 2 : 0}
+            data={item}
+            key={i}
+            size={(datum, active) => active ? 5 : 0}
           />
         ))}
       </VictoryGroup>
-      <VictoryGroup>
-        {range(3, 6).map(i => (
+      <VictoryGroup colorScale={VictoryTheme.material.group.colorScale}>
+        {data2.map((item, i) => (
           <VictoryScatter
-            data={data[i]}
-            size={(datum, active) => active ? 2 : 0}
+            data={item}
+            key={i}
+            size={(datum, active) => active ? 5 : 0}
           />
         ))}
       </VictoryGroup>
